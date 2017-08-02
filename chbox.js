@@ -85,7 +85,8 @@ if (window.rcmail) {
     }
     // set eventhandler to checkbox selection
     if (rcmail.env.chbox_col != null && (row.select = document.getElementById('rcmselect'+row.uid))) {
-      if (rcmail.message_list.in_selection(row.uid)) {
+		
+      if (in_selection_chbox(row.uid, rcmail.message_list)) {
         row.select.checked = true;
       }
       row.select._row = row.obj;
@@ -98,6 +99,19 @@ if (window.rcmail) {
   });
 }
 
+if (typeof in_selection_chbox != 'function') {
+	/**
+	 * Check if given id is part of the current selection
+	 */
+	in_selection_chbox = function (id, message_list)
+	{
+		for (var n in this.selection)
+			if (message_list.selection[n] == id)
+				return true;
+
+		return false;
+	};
+}
 
 $(document).ready(function(){
   chbox_menu();
