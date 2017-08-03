@@ -1,5 +1,5 @@
 {
-    "name": "namesco/chbox",
+    "name": "roundcube/chbox",
     "type": "roundcube-plugin",
     "description": "This chbox plugin adds the convenient functionality of making single and/or multiple selections from a number of emails in Roundcube message list.",
     "keywords": ["mail","chbox","checkbox","maillist"],
@@ -16,7 +16,7 @@
             "email": "manuel.delgado@ucr.ac.cr",
             "role": "Developer"
         },
-		{
+	{
             "name": "Artur Petrov",
             "email": "admin@gtn18.ru",
             "role": "Developer"
