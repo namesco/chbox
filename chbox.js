@@ -39,7 +39,14 @@ function rcmail_selectmenu() {
   }
   return false;
 }
-
+function chbox_in_array(value, arr) {
+	for (var i = 0, len = arr.length; i < len; i++) {
+		if (arr[i] == value){
+			return true;
+		}
+	}
+	return false;
+}
 function chbox_menu(){
   var link_html = '<a href="#" onclick="return rcmail.command(\'plugin.chbox.selectmenu\')">'+rcmail.env.chboxicon;
   $('#rcmchbox').html(link_html);
