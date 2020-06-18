@@ -40,28 +40,24 @@ function rcmail_selectmenu() {
   return false;
 }
 
-function chbox_menu(){
-  var link_html = '<a href="#" onclick="return rcmail.command(\'plugin.chbox.selectmenu\')">'+rcmail.env.chboxicon;
-  $('#rcmchbox').html(link_html);
-}
-
 if (window.rcmail) {
   rcmail.addEventListener('init', function (evt) {
     rcmail.register_command('plugin.chbox.selectmenu', rcmail_selectmenu, true);
-      // add event-listener to message list
-      if (rcmail.message_list) {
-        rcmail.message_list.addEventListener('select', function (list) {
-
-        var selection = list.selection;
-        var rows = list.rows;
-				
-        $.each(rows, function(index, row){
-          var uid = row.uid;
-          var select = document.getElementById('rcmselect' + uid);
-          if (select) {
-            select.checked = chbox_in_array(uid, selection);
-          }
-        });
+    // add event-listener to message list
+    if (rcmail.message_list) {
+      rcmail.message_list.addEventListener('select', function(list) {
+        $('#messagelist input').filter(':checkbox').prop('checked',false);
+        var selection = rcmail.message_list ? $.merge([], rcmail.message_list.get_selection()) : [];
+        // exit if no mailbox specified or if selection is empty
+        if (!rcmail.env.uid && !selection.length)
+          return;
+        for (var uid, i=0, len=selection.length; i<len; i++) {
+            uid = selection[i];
+            var select = document.getElementById('rcmselect'+uid);
+            if (select) {
+              select.checked = true;
+      	    }
+        }
       });
    }
   });
@@ -74,7 +70,7 @@ if (window.rcmail) {
     }
     // set eventhandler to checkbox selection
     if (rcmail.env.chbox_col != null && (row.select = document.getElementById('rcmselect'+row.uid))) {
-		
+
       if (in_selection_chbox(row.uid, rcmail.message_list)) {
         row.select.checked = true;
       }
@@ -88,23 +84,3 @@ if (window.rcmail) {
   });
 }
 
-if (typeof in_selection_chbox != 'function') {
-	/**
-	 * Check if given id is part of the current selection
-	 */
-	in_selection_chbox = function (id, message_list)
-	{
-		for (var n in this.selection)
-			if (message_list.selection[n] == id)
-				return true;
-
-		return false;
-	};
-}
-
-$(document).ready(function(){
-  chbox_menu();
-  var li = '<label><input type="checkbox" name="list_col[]" value="chbox" id="cols_chbox" /> <span>'+rcmail.get_label('chbox.chbox')+'</span></label>';
-  $("#listmenu fieldset ul input#cols_threads").parent().after(li);
-  $("#listoptions fieldset ul.proplist:first li:first-child").after('<li>'+li+'</li>');
-});

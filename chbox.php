@@ -29,12 +29,17 @@ class chbox extends rcube_plugin {
     $rcmail->output->add_label('chbox.chbox');
     $rcmail->output->set_env('chboxicon', $chboxicon);
     $this->include_stylesheet($this->local_skin_path(). '/chbox.css');
+    $this->include_script($this->local_skin_path(). '/chbox.js');
 
     return $args;
   }
 
   function message_list($args){
-    $count = count($args['messages']);
+    if (is_array($args['messages'])) {
+      $count = count($args['messages']);
+    } else {
+      $count = 0;
+    }
 
     for ($i=0;$i<$count;$i++) {
       $uid = $args['messages'][$i]->uid;
