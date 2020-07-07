@@ -71,7 +71,8 @@ if (window.rcmail) {
     // set eventhandler to checkbox selection
     if (rcmail.env.chbox_col != null && (row.select = document.getElementById('rcmselect'+row.uid))) {
 
-      if (in_selection_chbox(row.uid, rcmail.message_list)) {
+		if (rcmail.message_list.in_selection(row.uid)) {
+		// if (in_selection_chbox(row.uid, rcmail.message_list)) {
         row.select.checked = true;
       }
       row.select._row = row.obj;
